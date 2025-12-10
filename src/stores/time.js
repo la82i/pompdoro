@@ -22,5 +22,5 @@ export const useTimeStore = defineStore(
       key: 'pomodoro-time',
       pick: ['timeleft', 'isBreakTime'],
     },
-  }
+  },
 )
