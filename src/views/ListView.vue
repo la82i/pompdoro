@@ -67,10 +67,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in list.finishedItems" :key="item.id">
+            <tr v-for="(item) in list.finishedItems" :key="item.id">
               <td>{{ item.text }}</td>
               <td>
-                <v-btn icon="mdi-delete" @click="delFinishedItem(item.id)" />
+                <v-btn icon="mdi-delete" @click="delFinishedItem(item.id) " />
               </td>
             </tr>
           </tbody>
@@ -81,60 +81,60 @@
 </template>
 
 <script setup>
-import { nextTick, ref, useTemplateRef } from 'vue'
-import { useListStore } from '@/stores/list'
+  import { nextTick, ref, useTemplateRef } from 'vue'
+  import { useListStore } from '@/stores/list'
 
-const list = useListStore()
+  const list = useListStore()
 
-const input = ref('')
-const inputTextField = useTemplateRef('inputTextField')
-const editTextField = useTemplateRef('editTextField')
+  const input = ref('')
+  const inputTextField = useTemplateRef('inputTextField')
+  const editTextField = useTemplateRef('editTextField')
 
-const rules = {
-  required: (value) => Boolean(value) || '必填欄位',
-  length: (value) => value.length >= 3 || '必須要三個字以上',
-}
-
-const onInputSubmit = () => {
-  if (!inputTextField.value.isValid) return
-  list.items.push({
-    id: list.id++,
-    text: input.value,
-    edit: false,
-    input: input.value,
-  })
-  inputTextField.value.reset()
-}
-
-const onInputFocusUpdate = async (value) => {
-  if (!value && !input.value) {
-    await nextTick()
-    inputTextField.value.resetValidation()
+  const rules = {
+    required: value => Boolean(value) || '必填欄位',
+    length: value => value.length >= 3 || '必須要三個字以上',
   }
-}
 
-const editItem = (item) => {
-  item.edit = true
-}
+  const onInputSubmit = () => {
+    if (!inputTextField.value.isValid) return
+    list.items.push({
+      id: list.id++,
+      text: input.value,
+      edit: false,
+      input: input.value,
+    })
+    inputTextField.value.reset()
+  }
 
-const submitEditItem = (item, idx) => {
-  if (!editTextField.value[idx].isValid) return
-  item.text = item.input
-  item.edit = false
-}
+  const onInputFocusUpdate = async value => {
+    if (!value && !input.value) {
+      await nextTick()
+      inputTextField.value.resetValidation()
+    }
+  }
 
-const cancelEditItem = (item) => {
-  item.input = item.text
-  item.edit = false
-}
+  const editItem = item => {
+    item.edit = true
+  }
 
-const delItem = (id) => {
-  const idx = list.items.findIndex((item) => item.id === id)
-  list.items.splice(idx, 1)
-}
+  const submitEditItem = (item, idx) => {
+    if (!editTextField.value[idx].isValid) return
+    item.text = item.input
+    item.edit = false
+  }
 
-const delFinishedItem = (id) => {
-  const idx = list.finishedItems.findIndex((item) => item.id === id)
-  list.finishedItems.splice(idx, 1)
-}
+  const cancelEditItem = item => {
+    item.input = item.text
+    item.edit = false
+  }
+
+  const delItem = id => {
+    const idx = list.items.findIndex(item => item.id === id)
+    list.items.splice(idx, 1)
+  }
+
+  const delFinishedItem = id => {
+    const idx = list.finishedItems.findIndex(item => item.id === id)
+    list.finishedItems.splice(idx, 1)
+  }
 </script>
