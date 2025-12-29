@@ -45,13 +45,13 @@
       :class="{ active: '013456789'.includes(data) }"
       d="M289,498.818c0,5.523-4.477,10-10,10l0,0c-5.523,0-10-4.477-10-10v-218c0-5.523,4.477-10,10-10l0,0c5.523,0,10,4.477,10,10V498.818z"
     />
-    <circle :class="{ active: data === ':'}" cx="146" cy="126.873" r="17" />
-    <circle :class="{ active: data === ':'}" cx="146" cy="389.818" r="17" />
+    <circle :class="{ active: data === ':' }" cx="146" cy="126.873" r="17" />
+    <circle :class="{ active: data === ':' }" cx="146" cy="389.818" r="17" />
   </svg>
 </template>
 
 <script setup>
-  defineProps(['data', 'color'])
+defineProps(['data', 'color'])
 </script>
 
 <style scoped>
@@ -59,8 +59,9 @@ svg {
   margin: 5px;
   width: 100px;
 }
-path, circle {
-  fill: black;
+path,
+circle {
+  fill: white;
 }
 .active {
   /* https://zh-hk.vuejs.org/api/sfc-css-features#v-bind-in-css */
